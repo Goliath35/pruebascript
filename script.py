@@ -1,20 +1,21 @@
 import pandas as pd
 import json
 import math
+import subprocess
 
-# 1. Leer el Excel
+# 1. Leer Excel
 df = pd.read_excel("Proyectores QR.xlsx")
 
-# 2. Eliminar columnas "Unnamed"
+# 2. Limpiar columnas basura
 df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
 
-# 3. Eliminar filas donde "Marca" esté vacía (filas basura)
+# 3. Filtrar filas vacías
 df = df.dropna(subset=["Marca"])
 
-# 4. Convertir a lista de objetos
+# 4. Convertir a JSON
 data = df.to_dict(orient="records")
 
-# 5. Reemplazar NaN por None
+# 5. Limpiar NaN
 def limpiar_nans(obj):
     if isinstance(obj, list):
         return [limpiar_nans(i) for i in obj]
@@ -26,23 +27,26 @@ def limpiar_nans(obj):
 
 data = limpiar_nans(data)
 
-# 6. Guardar como JSON
+# 6. Guardar JSON
 with open("proyectores.json", "w", encoding="utf-8") as f:
     json.dump(data, f, indent=4, ensure_ascii=False)
 
 print("✔ JSON creado correctamente")
 
-import subprocess
+# 7. Git (IMPORTANTE: con control de errores)
+subprocess.run(["git", "add", "."], check=True)
 
-# Git add
-subprocess.run(["git", "add", "."])
+commit = subprocess.run(
+    ["git", "commit", "-m", "Actualización automática"],
+    capture_output=True,
+    text=True
+)
 
-# Commit
-subprocess.run(["git", "commit", "-m", "Actualización automática"])
+print(commit.stdout)
 
-# Push a GitHub
-subprocess.run(["git", "push"])
-
-subprocess.run(["git", "pull", "--rebase"])
-
-print("✔ GitHub actualizado")
+# Solo hacer push si hubo commit real
+if "nothing to commit" not in commit.stdout:
+    subprocess.run(["git", "push"], check=True)
+    print("✔ GitHub actualizado")
+else:
+    print("⚠ No había cambios para subir")
