@@ -418,5 +418,20 @@
         "Origen": "Almacen 1",
         "Foto": "28.jpg",
         "QR": null
+    },
+    {
+        "Marca": "EPSON",
+        "Modelo": "MW-550",
+        "N. de Serie": "PDM8J01228000",
+        "Lampara/modelo bombilla": null,
+        "Precio Medio": null,
+        "Horas de bombilla": "2623h Normal",
+        "Resolución": "1280 x 800",
+        "Conexiones Traseras": "VGA in, HDMI, RS237",
+        "Incidencia": null,
+        "Enlace de Compra": "pccomponentes",
+        "Origen": "Almacen 1",
+        "Foto": "28.jpg",
+        "QR": null
     }
 ]
