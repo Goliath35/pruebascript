@@ -33,8 +33,14 @@ with open("proyectores.json", "w", encoding="utf-8") as f:
 print("✔ JSON creado correctamente")
 
 import subprocess
+
+# Git add
 subprocess.run(["git", "add", "."])
+
+# Commit
 subprocess.run(["git", "commit", "-m", "Actualización automática"])
+
+# Push a GitHub
 subprocess.run(["git", "push"])
 
 print("✔ GitHub actualizado")
