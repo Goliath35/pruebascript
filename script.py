@@ -43,4 +43,6 @@ subprocess.run(["git", "commit", "-m", "Actualización automática"])
 # Push a GitHub
 subprocess.run(["git", "push"])
 
+subprocess.run(["git", "pull", "--rebase"])
+
 print("✔ GitHub actualizado")
