@@ -15,6 +15,18 @@ df = df.dropna(subset=["Marca"])
 # 4. Convertir a JSON
 data = df.to_dict(orient="records")
 
+# 7. Git (IMPORTANTE: con control de errores)
+subprocess.run(["git", "add", "."], check=True)
+
+commit = subprocess.run(
+    ["git", "commit", "-m", "Actualización automática"],
+    capture_output=True,
+    text=True
+)
+
+print(commit.stdout)
+
+# Solo hacer push si hubo commit real
 # 5. Limpiar NaN
 def limpiar_nans(obj):
     if isinstance(obj, list):
@@ -51,4 +63,5 @@ if "nothing to commit" not in commit.stdout:
     subprocess.run(["git", "push"], check=True)
     print("✔ GitHub actualizado")
 else:
+    print("⚠ No había cambios para subir")
     print("⚠ No había cambios para subir")
